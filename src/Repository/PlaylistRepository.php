@@ -46,26 +46,32 @@ class PlaylistRepository extends ServiceEntityRepository
     }
     
     /**
-     * Retourne toutes les playlists triées sur un champ
+     * Retourne toutes les playlists triées sur le nom de la playlist
      * @param type $champ
      * @param type $ordre
      * @return Playlist[]
      */
-    public function findAllOrderBy($champ, $ordre): array{
+    public function findAllOrderByName($ordre): array{
         return $this->createQueryBuilder('p')
-                ->select(self::ID_SELECTOR)
-                ->addSelect(self::NAME_SELECTOR)
-                ->addSelect(self::CATEGORIE_SELECTOR)
-                ->leftjoin('p.formations', 'f')
-                ->leftjoin('f.categories', 'c')
-                ->groupBy('p.id')
-                ->addGroupBy('c.name')
-                ->orderBy('p.'.$champ, $ordre)
-                ->addOrderBy('c.name')
-                ->getQuery()
-                ->getResult();       
+                    ->leftjoin('p.formations', 'f')
+                    ->groupBy('p.id')
+                    ->orderBy('p.name', $ordre)
+                    ->getQuery()
+                    ->getResult();
     }
-
+    /**
+    * Retourne toutes les playlists triées sur le nombre de formations
+    * @param type $ordre
+    * @return Playlist[]
+    */
+    public function findAllOrderByNbFormations($ordre): array{
+        return $this->createQueryBuilder('p')
+                    ->leftjoin('p.formations', 'f')
+                    ->groupBy('p.id')
+                    ->orderBy('count(f.title)', $ordre)
+                    ->getQuery()
+                    ->getResult();
+    }
     /**
      * Enregistrements dont un champ contient une valeur
      * ou tous les enregistrements si la valeur est vide
@@ -75,7 +81,7 @@ class PlaylistRepository extends ServiceEntityRepository
      */
     public function findByContainValue($champ, $valeur): array{
         if($valeur==""){
-            return $this->findAllOrderBy('name', 'ASC');
+            return $this->findAllOrderByName('ASC');
         }    
         
         return $this->createQueryBuilder('p')
@@ -106,7 +112,7 @@ class PlaylistRepository extends ServiceEntityRepository
      */
     public function findByContainValueInTable($champ, $valeur, $table=""): array{
         if($valeur==""){
-            return $this->findAllOrderBy('name', 'ASC');
+            return $this->findAllOrderByName('ASC');
         }    
         
         return $this->createQueryBuilder('p')
