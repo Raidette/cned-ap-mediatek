@@ -71,15 +71,14 @@ class PlaylistRepository extends ServiceEntityRepository
      * ou tous les enregistrements si la valeur est vide
      * @param type $champ
      * @param type $valeur
-     * @param type $table si $champ dans une autre table
      * @return Playlist[]
      */
-    public function findByContainValue($champ, $valeur, $table=""): array{
+    public function findByContainValue($champ, $valeur): array{
         if($valeur==""){
             return $this->findAllOrderBy('name', 'ASC');
         }    
-        if($table==""){      
-            return $this->createQueryBuilder('p')
+        
+        return $this->createQueryBuilder('p')
                     ->select(self::ID_SELECTOR)
                     ->addSelect(self::NAME_SELECTOR)
                     ->addSelect(self::CATEGORIE_SELECTOR)
@@ -92,9 +91,25 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->orderBy('p.name', 'ASC')
                     ->addOrderBy('c.name')
                     ->getQuery()
-                    ->getResult();              
-        }else{   
-            return $this->createQueryBuilder('p')
+                    ->getResult();
+    }
+    
+    
+    /**
+     * Enregistrements dont un champ dans une table spécifique (ex :) contient une valeur
+     * ou tous les enregistrements si la valeur est vide
+     * @param type $champ
+     * @param type $valeur
+     * @param type $table permet de chercher dans une table spécifique
+     * @return Playlist[]
+     * @example Rechercher tous les cours de POO dans la table des cours en java
+     */
+    public function findByContainValueInTable($champ, $valeur, $table=""): array{
+        if($valeur==""){
+            return $this->findAllOrderBy('name', 'ASC');
+        }    
+        
+        return $this->createQueryBuilder('p')
                     ->select(self::ID_SELECTOR)
                     ->addSelect(self::NAME_SELECTOR)
                     ->addSelect(self::CATEGORIE_SELECTOR)
@@ -107,11 +122,6 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->orderBy('p.name', 'ASC')
                     ->addOrderBy('c.name')
                     ->getQuery()
-                    ->getResult();              
-            
-        }           
-    }    
-
-
-    
+                    ->getResult();
+    }   
 }

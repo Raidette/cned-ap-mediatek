@@ -66,30 +66,43 @@ class FormationRepository extends ServiceEntityRepository
      * ou tous les enregistrements si la valeur est vide
      * @param type $champ
      * @param type $valeur
-     * @param type $table si $champ dans une autre table
      * @return Formation[]
      */
-    public function findByContainValue($champ, $valeur, $table=""): array{
+    public function findByContainValue($champ, $valeur): array{
         if($valeur==""){
             return $this->findAll();
         }
-        if($table==""){
-            return $this->createQueryBuilder('f')
+        
+        return $this->createQueryBuilder('f')
                     ->where('f.'.$champ.' LIKE :valeur')
                     ->orderBy('f.publishedAt', 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
-                    ->getResult();            
-        }else{
-            return $this->createQueryBuilder('f')
+                    ->getResult();
+    }
+
+    /**
+     * Enregistrements dont un champ dans une table spécifique (ex :) contient une valeur
+     * ou tous les enregistrements si la valeur est vide
+     * @param type $champ
+     * @param type $valeur
+     * @param type $table permet de chercher dans une table spécifique
+     * @return Playlist[]
+     * @example Rechercher tous les cours de POO dans la table des cours en java
+     */
+    public function findByContainValueInTable($champ, $valeur, $table=""): array{
+        if($valeur==""){
+            return $this->findAll();
+        }
+        
+        return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')                    
                     ->where('t.'.$champ.' LIKE :valeur')
                     ->orderBy('f.publishedAt', 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
-                    ->getResult();                   
-        }       
-    }    
+                    ->getResult();   
+    }
     
     /**
      * Retourne les n formations les plus récentes

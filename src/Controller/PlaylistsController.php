@@ -73,15 +73,29 @@ class PlaylistsController extends AbstractController {
     }         
     
     /**
-     * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
+     * @Route("/playlists/recherche/{champ}", name="playlists.findallcontain")
+     */
+    public function findAllContain($champ, Request $request): Response{
+        $valeur = $request->get("recherche");
+        $playlists = $this->playlistRepository->findByContainValue($champ, $valeur);
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::PAGE_PLAYLISTS, [
+            'playlists' => $playlists,
+            'categories' => $categories,            
+            'valeur' => $valeur
+        ]);
+    }  
+
+    /**
+     * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontainintable")
      * @param type $champ
      * @param Request $request
      * @param type $table
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table=""): Response{
+    public function findAllContainInTable($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
-        $playlists = $this->playlistRepository->findByContainValue($champ, $valeur, $table);
+        $playlists = $this->playlistRepository->findByContainValueInTable($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
         return $this->render(self::PAGE_PLAYLISTS, [
             'playlists' => $playlists,
@@ -89,7 +103,7 @@ class PlaylistsController extends AbstractController {
             'valeur' => $valeur,
             'table' => $table
         ]);
-    }  
+    }
     
     /**
      * @Route("/playlists/playlist/{id}", name="playlists.showone")
