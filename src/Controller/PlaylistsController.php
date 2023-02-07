@@ -89,7 +89,8 @@ class PlaylistsController extends AbstractController {
         return $this->render(self::PAGE_PLAYLISTS, [
             'playlists' => $playlists,
             'categories' => $categories,            
-            'valeur' => $valeur
+            'valeur' => $valeur,
+            'table' => ""
         ]);
     }  
 
@@ -126,6 +127,8 @@ class PlaylistsController extends AbstractController {
             'playlistcategories' => $playlistCategories,
             'playlistformations' => $playlistFormations
         ]);        
-    }       
+    }    
+    
+   
     
 }

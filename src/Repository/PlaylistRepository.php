@@ -72,7 +72,7 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
-    /**
+        /**
      * Enregistrements dont un champ contient une valeur
      * ou tous les enregistrements si la valeur est vide
      * @param type $champ
@@ -85,17 +85,13 @@ class PlaylistRepository extends ServiceEntityRepository
         }    
         
         return $this->createQueryBuilder('p')
-                    ->select(self::ID_SELECTOR)
-                    ->addSelect(self::NAME_SELECTOR)
-                    ->addSelect(self::CATEGORIE_SELECTOR)
                     ->leftjoin('p.formations', 'f')
-                    ->leftjoin('f.categories', 'c')
                     ->where('p.'.$champ.' LIKE :valeur')
+
                     ->setParameter('valeur', '%'.$valeur.'%')
+
                     ->groupBy('p.id')
-                    ->addGroupBy('c.name')
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy('c.name')
                     ->getQuery()
                     ->getResult();
     }
@@ -116,17 +112,13 @@ class PlaylistRepository extends ServiceEntityRepository
         }    
         
         return $this->createQueryBuilder('p')
-                    ->select(self::ID_SELECTOR)
-                    ->addSelect(self::NAME_SELECTOR)
-                    ->addSelect(self::CATEGORIE_SELECTOR)
                     ->leftjoin('p.formations', 'f')
                     ->leftjoin('f.categories', 'c')
                     ->where('c.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', '%'.$valeur.'%')
+
                     ->groupBy('p.id')
-                    ->addGroupBy('c.name')
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy('c.name')
                     ->getQuery()
                     ->getResult();
     }   
