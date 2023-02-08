@@ -1,0 +1,92 @@
+{% extends "basefront.html.twig" %}
+
+{% set arrayCategoriesFormation = [] %}
+
+{% if formation != [] %}
+    {% set pathForm = path("formations.updateFormation", {id:formation.id}) %}
+    {% set titreFormation = formation.title %}
+    {% set descriptionFormation = formation.description %}
+    {% set formationVideoID = formation.videoID %}
+    {% set titreDocument = "Modification d'une formation" %}
+    {% for categorie in formation.categories %}
+        {% set arrayCategoriesFormation = arrayCategoriesFormation|merge([categorie.id]) %}
+    {% endfor %}
+{% else %}
+
+    {% set pathForm = path("formations.addformation") %}
+    {% set titreFormation = "" %}
+    {% set descriptionFormation = "" %}
+    {% set formationVideoID = "" %}
+    {% set titreDocument = "Ajout d'une formation" %}
+
+
+{% endif %}
+
+{% block body %}
+
+    <div class="d-flex w-100 align-items-center justify-content-center flex-column">
+
+        <h3 class="mt-2">Ajout d'une formation</h3>
+
+        <form method="POST" action="{{pathForm}}" class="d-flex pt-2 w-100 align-items-center justify-content-center flex-column">
+            
+            <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+            <div class="mb-2 col-8">
+                <label for="titre" class="form-label">Titre de la formation :</label>
+                <input type="text" class="form-control" id="titre" name="titre" aria-describedby="entrerTitre"/ value="{{titreFormation}}" required>
+            </div>
+
+            <div class="mb-2 col-8">
+                <label for="description" class="form-label">Description de la formation :</label>
+                <textarea rows="10" class="form-control" id="description" name="description" aria-describedby="entrerTitre">{{descriptionFormation}}</textarea>
+            </div>
+
+            <div class="mb-2 col-8">
+                <input type="datetime-local" id="dateCreation" class="form-control"
+                    name="dateCreation" value="{{dateformation}}"
+                    max="{{dateNow}}"
+                    required>  
+            </div>
+
+            <div class="mb-2 col-8">
+                <label for="id-video" class="form-label">Url youtube de la vidéo :</label>
+                <input type="text" class="form-control" id="url" name="url" aria-describedby="entrerTitre" value="{{formationVideoID}}" required>
+            </div>
+
+            <div class="mb-2 col-8">
+                <label for="id-video" class="form-label">Catégories de la formation :</label>
+                <select class="form-select form-select-sm" name="categories[]" id="categories[]" multiple>
+                    <option value=""></option>
+                    {% for categorie in categories %}
+                        <option 
+                            {% if formation != [] and categorie.id in arrayCategoriesFormation %} 
+                                selected
+                            {% endif %} 
+                            value="{{ categorie.id }}">{{ categorie.name }}
+                        </option>
+                    {% endfor %}
+                </select>                    
+            </div>
+
+            <div class="mb-2 col-8">
+                <label for="id-video" class="form-label">Playlist de la formation :</label>
+                <select class="form-select form-select-sm" name="playlist" id="playlist" required>
+                    <option value=""></option>
+                    {% for playlist in listeplaylists %}
+                        <option 
+                            {% if formation != [] and playlist.id == formation.playlist.id %} 
+                                selected
+                            {% endif %} 
+                            value="{{ playlist.id }}">{{ playlist.name }}
+                        </option>
+                    {% endfor %}
+                </select>                    
+            </div>
+
+            <input type="submit" class="btn btn-outline-primary" value="Envoyer !">
+
+        </form>
+
+    </div>
+
+{% endblock %}
