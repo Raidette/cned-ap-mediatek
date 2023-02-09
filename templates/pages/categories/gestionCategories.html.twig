@@ -1,0 +1,45 @@
+{% extends "basefront.html.twig" %}
+
+
+{% block body %}
+
+    <table class="table table-striped" aria-describedby="">
+        <thead>
+            <tr>
+                <th class="text-left align-top" scope="col">
+                    Catégorie<br />
+                </th>
+                <th class="text-left align-top" scope="col">
+                    Nombre de formations<br />
+                </th>
+                <th class="text-left align-top" scope="col">
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categorie in listeCategories %}
+                <tr class="align-middle">
+                    <td>
+                        <h5 class="text-info">
+                            {{ categorie.name }}
+                        </h5>
+                    </td>
+                    <td>
+                        <h5 class="text-start">
+                            {{ categorie.formations|length }}
+                        </h5>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('categories.supprCategorie', {id:categorie.id}) }}" 
+                        class="btn btn-outline-danger {% if categorie.formations|length is not same as(0)%}disabled{% endif %}"
+                        onclick="return confirm('Voulez-vous vraiment valider la suppression de la catégorie ?');">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include "pages/categories/formAjoutCategorie.html.twig" %}
+
+{% endblock %}
