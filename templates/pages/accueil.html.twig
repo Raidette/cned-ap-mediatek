@@ -32,7 +32,7 @@
                                 <h5 class="text-info mt-1">
                                     {{ formation.title }}
                                 </h5>
-                                <strong>playlist : </strong> if formation.playlist.name is defined %}{{formation.playlist.name}}{% endif %}<br />
+                                <strong>playlist : </strong>{% if formation.playlist.name is defined %}{{formation.playlist.name}}{% endif %}<br />
                                 <strong>catégories : </strong> 
                                 {% for categorie in formation.categories %}
                                     {{ categorie.name }}&nbsp;
