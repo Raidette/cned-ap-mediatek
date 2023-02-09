@@ -4,7 +4,7 @@
 
 {% if formation != [] %}
     {% set pathForm = path("formations.updateFormation", {id:formation.id}) %}
-    {% set titreFormation = formation.title %}
+    {% set nomFormation = formation.title %}
     {% set descriptionFormation = formation.description %}
     {% set formationVideoID = formation.videoID %}
     {% set titreDocument = "Modification d'une formation" %}
@@ -14,7 +14,7 @@
 {% else %}
 
     {% set pathForm = path("formations.addformation") %}
-    {% set titreFormation = "" %}
+    {% set nomFormation = "" %}
     {% set descriptionFormation = "" %}
     {% set formationVideoID = "" %}
     {% set titreDocument = "Ajout d'une formation" %}
@@ -30,10 +30,10 @@
 
         <form method="POST" action="{{pathForm}}" class="d-flex pt-2 w-100 align-items-center justify-content-center flex-column">
             
-            <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('filtre_ajoutFormation') }}">
             <div class="mb-2 col-8">
                 <label for="titre" class="form-label">Titre de la formation :</label>
-                <input type="text" class="form-control" id="titre" name="titre" aria-describedby="entrerTitre"/ value="{{titreFormation}}" required>
+                <input type="text" class="form-control" id="titre" name="titre" aria-describedby="entrerTitre"/ value="{{nomFormation}}" required>
             </div>
 
             <div class="mb-2 col-8">

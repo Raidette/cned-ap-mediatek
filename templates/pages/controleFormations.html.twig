@@ -31,7 +31,7 @@
                         <div class="form-group mr-1 mb-2">
                             <input type="text" class="sm" name="recherche" 
                                    value="{% if valeur|default and table|default and table=='playlist' %}{{ valeur }}{% endif %}">
-                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_playlist') }}">
                             <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
                         </div>
                     </form>                    
@@ -39,7 +39,7 @@
                 <th class="text-left align-top" scope="col">
                     catégories
                     <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontainintablecontrole', {champ:'id', table:'categories'}) }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_categorieControleFormations') }}">
                         <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
                             <option value=""></option>
                             {% for categorie in categories %}
@@ -72,7 +72,7 @@
                         </h5>
                     </td>
                     <td class="text-left">
-                        {{ formation.playlist.name }}                  
+                        {% if formation.playlist.name is defined %}{{formation.playlist.name}}{% endif %}               
                     </td>                    
                     <td class="text-left">
                         {% for categorie in formation.categories %}
