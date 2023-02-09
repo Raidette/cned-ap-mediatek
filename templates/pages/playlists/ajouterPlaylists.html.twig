@@ -1,0 +1,23 @@
+{% extends "basefront.html.twig" %}
+
+{% block body %}
+
+    <h3 class="mt-2">Création d'une playlist</h3>
+
+
+    <form method="POST" action="{{path('playlists.createplaylist')}}">
+        <input type="hidden" name="_token" value="{{ csrf_token('filtre_createPlaylist') }}">                    
+        <div class="mb-3 mt-3">
+            <label for="nomFormation" class="form-label" required>Titre de la formation :</label>
+            <input type='text' id="nomFormation" name="nomFormation" class="form-control">
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="descriptionFormation" class="form-label">Description de la formation :</label>
+            <textarea rows="8" id="descriptionFormation" name="descriptionFormation" class="form-control"></textarea>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="submit" class="btn btn-outline-success" value="Modifier les informations">
+        </div>
+    </form>
+
+{% endblock %}
