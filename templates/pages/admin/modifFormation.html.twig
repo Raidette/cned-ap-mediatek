@@ -1,9 +1,9 @@
-{% extends "basefront.html.twig" %}
+{% extends "baseadmin.html.twig" %}
 
 {% set arrayCategoriesFormation = [] %}
 
 {% if formation != [] %}
-    {% set pathForm = path("formations.updateFormation", {id:formation.id}) %}
+    {% set pathForm = path("admin.formations.updateFormation", {id:formation.id}) %}
     {% set nomFormation = formation.title %}
     {% set descriptionFormation = formation.description %}
     {% set formationVideoID = formation.videoID %}
@@ -13,7 +13,7 @@
     {% endfor %}
 {% else %}
 
-    {% set pathForm = path("formations.addformation") %}
+    {% set pathForm = path("admin.formations.addformation") %}
     {% set nomFormation = "" %}
     {% set descriptionFormation = "" %}
     {% set formationVideoID = "" %}
@@ -59,9 +59,9 @@
                     <option value=""></option>
                     {% for categorie in categories %}
                         <option 
-                            {% if formation != [] and categorie.id in arrayCategoriesFormation %} 
-                                selected
-                            {% endif %} 
+                                {% if formation is not empty and categorie.id in arrayCategoriesFormation %} 
+                                    selected
+                                {% endif %} 
                             value="{{ categorie.id }}">{{ categorie.name }}
                         </option>
                     {% endfor %}
@@ -71,12 +71,13 @@
             <div class="mb-2 col-8">
                 <label for="id-video" class="form-label">Playlist de la formation :</label>
                 <select class="form-select form-select-sm" name="playlist" id="playlist" required>
-                    <option value=""></option>
+                    <option value="" selected disabled></option>
                     {% for playlist in listeplaylists %}
                         <option 
-                            {% if formation != [] and playlist.id == formation.playlist.id %} 
+                            {% if formation != [] and playlist.id != null and playlist.id == formation.playlist.id %} 
                                 selected
                             {% endif %} 
+
                             value="{{ playlist.id }}">{{ playlist.name }}
                         </option>
                     {% endfor %}

@@ -1,4 +1,4 @@
-{% extends "basefront.html.twig" %}
+{% extends "baseadmin.html.twig" %}
 {% block body %}
 
     <p>
@@ -6,15 +6,15 @@
     </p>
 
     <div>
-        <a class="btn btn-outline-success" href="{{path("formations.pagecreerformation")}}">Ajouter une formation</a>
+        <a class="btn btn-outline-success" href="{{path("admin.formations.pagecreerformation")}}">Ajouter une formation</a>
     <table class="table table-striped" aria-describedby="">
         <thead>
             <tr>
                 <th class="text-left align-top" scope="col">
                     formation<br />
-                    <a href="{{ path('formations.sortControle', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
-                    <a href="{{ path('formations.sortControle', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
-                    <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontaincontrole', {champ:'title'}) }}">
+                    <a href="{{ path('admin.formations.sortGestion', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('admin.formations.sortGestion', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" method="POST" action="{{ path('admin.formations.findallcontaingestion', {champ:'title'}) }}">
                         <div class="form-group mr-1 mb-2">
                             <input type="text" class="sm" name="recherche" 
                                    value="{% if valeur|default and not table|default %}{{ valeur }}{% endif %}">
@@ -25,9 +25,9 @@
                 </th>
                 <th class="text-left align-top" scope="col">
                     playlist<br />
-                    <a href="{{ path('formations.sortControle', {table:'playlist', champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
-                    <a href="{{ path('formations.sortControle', {table:'playlist', champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
-                    <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontainintablecontrole', {champ:'name', table:'playlist'}) }}">
+                    <a href="{{ path('admin.formations.sortGestion', {table:'playlist', champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('admin.formations.sortGestion', {table:'playlist', champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" method="POST" action="{{ path('admin.formations.findallcontainintablegestion', {champ:'name', table:'playlist'}) }}">
                         <div class="form-group mr-1 mb-2">
                             <input type="text" class="sm" name="recherche" 
                                    value="{% if valeur|default and table|default and table=='playlist' %}{{ valeur }}{% endif %}">
@@ -38,8 +38,8 @@
                 </th>
                 <th class="text-left align-top" scope="col">
                     catégories
-                    <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontainintablecontrole', {champ:'id', table:'categories'}) }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_categorieControleFormations') }}">
+                    <form class="form-inline mt-1" method="POST" action="{{ path('admin.formations.findallcontainintablegestion', {champ:'id', table:'categories'}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_categorieGestionFormations') }}">
                         <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
                             <option value=""></option>
                             {% for categorie in categories %}
@@ -55,8 +55,8 @@
                 </th>
                 <th class="text-center align-top" scope="col">
                     date<br />
-                    <a href="{{ path('formations.sortControle', {champ:'publishedAt', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
-                    <a href="{{ path('formations.sortControle', {champ:'publishedAt', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>                    
+                    <a href="{{ path('admin.formations.sortGestion', {champ:'publishedAt', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('admin.formations.sortGestion', {champ:'publishedAt', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>                    
                 </th>
                 <th class="text-center align-top" scope="col">
                     &nbsp;
@@ -91,11 +91,11 @@
                     </td>
 
                     <td class="text-center">
-                        <a href="{{ path('formations.pagemodifformation', {id:formation.id}) }}" class="btn
+                        <a href="{{ path('admin.formations.pagemodifformation', {id:formation.id}) }}" class="btn
                         btn-outline-primary">Modifier</a>
                     </td>
                     <td class="text-center">
-                        <a href="{{ path('formations.supprimerformation', {id:formation.id}) }}" class="btn
+                        <a href="{{ path('admin.formations.supprimerformation', {id:formation.id}) }}" class="btn
                         btn-outline-danger" onclick="return confirm('Voulez-vous vraiment valider la suppression de la formation ?');">Supprimer</a>
                     </td>
                 </tr>

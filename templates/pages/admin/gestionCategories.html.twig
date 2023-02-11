@@ -1,4 +1,4 @@
-{% extends "basefront.html.twig" %}
+{% extends "baseadmin.html.twig" %}
 
 
 {% block body %}
@@ -31,7 +31,7 @@
                         </h5>
                     </td>
                     <td class="text-center">
-                        <a href="{{ path('categories.supprCategorie', {id:categorie.id}) }}" 
+                        <a href="{{ path('admin.categories.supprCategorie', {id:categorie.id}) }}" 
                         class="btn btn-outline-danger {% if categorie.formations|length is not same as(0)%}disabled{% endif %}"
                         onclick="return confirm('Voulez-vous vraiment valider la suppression de la catégorie ?');">Supprimer</a>
                     </td>
@@ -40,6 +40,6 @@
         </tbody>
     </table>
 
-    {% include "pages/categories/formAjoutCategorie.html.twig" %}
+    {% include "pages/admin/formAjoutCategorie.html.twig" %}
 
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "basefront.html.twig" %}
+{% extends "baseadmin.html.twig" %}
 {% block body %}
     <!--{{dump(playlist)}}-->
 
@@ -31,7 +31,7 @@
             <br /><br />
 
             <div class="mb-2 mt-2">
-                <form method="POST" action="{{path('playlists.createplaylist')}}">
+                <form method="POST" action="{{path('admin.playlists.modifinfosplaylist',{idplaylist:playlist.id})}}">
                     <input type="hidden" name="_token" value="{{ csrf_token('filtre_title') }}">
                         
                         <div class="mb-3 mt-3">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="mb-2 mt-2">
-                <form method="POST" action="{{path('playlists.addformationtoplaylist',{idplaylist:playlist.id})}}">
+                <form method="POST" action="{{path('admin.playlists.addformationtoplaylist',{idplaylist:playlist.id})}}">
 
                     <input type="hidden" name="_token" value="{{ csrf_token('filtre_formation') }}">
 
@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="col d-flex align-items-center">
-                        <a href="{{ path('playlists.removefromplaylist', {idformation:formation.id,idplaylist:playlist.id})}}" 
+                        <a href="{{ path('admin.playlists.removefromplaylist', {idformation:formation.id,idplaylist:playlist.id})}}" 
                            class="btn btn-outline-danger">
                             Retirer de la playlist
                         </a>          

@@ -13,17 +13,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item ps-2 pe-2">
-                        <a class="nav-link" href="{{ path('accueil') }}">Accueil</a>
+                        <a class="nav-link" href="{{ path('admin.formations.pagegestionformations') }}">Gestion des formations</a>
                     </li>
                     <li class="nav-item ps-2 pe-2">
-                        <a class="nav-link" href="{{ path('formations') }}">Formations</a>
-                    </li>
+                        <a class="nav-link" href="{{ path('admin.playlists.pagegestionplaylists') }}">Gestion des playlists</a>
+                    </li> 
                     <li class="nav-item ps-2 pe-2">
-                        <a class="nav-link" href="{{ path('playlists') }}">Playlists</a>
-                    </li>
-                    <li class="nav-item float-right ps-2 pe-2">
-                        <a class="nav-link text-primary" href="{{ path('admin') }}">Connexion admin</a>
-                    </li>               
+                        <a class="nav-link" href="{{ path('admin.categories.pagegestioncategories') }}">Gestion des catégories</a>
+                    </li> 
+                    <li class="nav-item ps-2 pe-2">
+                        <a class="nav-link text-danger" href="{{ path('logout') }}">Se déconnecter</a>
+                    </li>              
                 </ul>
             </div>
         </nav>        
