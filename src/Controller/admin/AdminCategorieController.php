@@ -38,26 +38,21 @@ class AdminCategorieController extends AbstractController
         $name = $request->get("name");
 
 
-        if($this->categorieRepository->findBy(["name" => $name]) === [])
-        {
-            $newCategorie->setName($name);
+        $this->categorieRepository->createCategory($newCategorie, [
 
-            $this->categorieRepository->add($newCategorie, true);
-        }
+            "name" => $name
 
-        return $this->redirectToRoute("categories.pagegestioncategories");
+    ]);
+
+        return $this->redirectToRoute("admin.categories.pagegestioncategories");
 
     }
 
     #[Route('/admin/categories/suppr/{id}', name: 'admin.categories.supprCategorie')]
     public function supprCategorie(Categorie $categorie, Request $request): Response
     {
+        $this->categorieRepository->removeCategorie($categorie);
 
-        if(count($categorie->getFormations()) === 0)
-        {
-            $this->categorieRepository->remove($categorie, true);   
-        }
-
-        return $this->redirectToRoute('categories.pagegestioncategories');
+        return $this->redirectToRoute('admin.categories.pagegestioncategories');
     }
 }

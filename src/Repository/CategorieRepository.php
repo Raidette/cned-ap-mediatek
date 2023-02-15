@@ -53,6 +53,31 @@ class CategorieRepository extends ServiceEntityRepository
                 ->orderBy('c.name', 'ASC')
                 ->getQuery()
                 ->getResult();        
-    }    
+    }  
+    
+    
+    public function createCategory(Categorie $categorie, array $properties)
+    {
+        $newCategorie = new Categorie();
 
+        if($this->findBy(["name" => $properties["name"]]) === [])
+        {
+            $newCategorie->setName($properties["name"]);
+
+            $this->add($newCategorie, true);
+        }
+    }
+
+    public function removeCategorie(Categorie $categorie)
+    {
+        if(count($categorie->getFormations()) === 0)
+        {
+            $this->remove($categorie, true);   
+        }
+
+        else
+        {
+            throw new \Exception("Impossible to remove a non-empty category.");
+        }
+    }
 }

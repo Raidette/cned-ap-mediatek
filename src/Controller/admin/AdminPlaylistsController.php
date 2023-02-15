@@ -109,7 +109,7 @@ class AdminPlaylistsController extends AbstractController
     } 
     
     /**
-     * @Route("/admin/playlists/modifPlaylist/{id}", name="admin.playlists.pagemodifplaylist")
+     * @Route("/admin/playlists/modif/{id}", name="admin.playlists.pagemodifplaylist")
      * @param type $id
      * @return Response
      */
@@ -150,16 +150,12 @@ class AdminPlaylistsController extends AbstractController
 
         $formation = $this->formationRepository->find($idformation);
 
-        $playlist->removeFormation($formation);
-
-    
-        $this->playlistRepository->add($playlist,true);
+        $this->playlistRepository->removeFormationFromPlaylist($playlist,$formation);
 
         $redirectId = $playlist->getId();
 
         return $this->redirectToRoute("admin.playlists.pagemodifplaylist",array('id' => $redirectId));
 
-           
     }
 
     /**
@@ -193,12 +189,7 @@ class AdminPlaylistsController extends AbstractController
      */
     public function deletePlaylist(Request $request, $idplaylist): Response{
 
-        $playlist = $this->playlistRepository->find($idplaylist);
-
-        if(count($playlist->getFormations()) === 0)
-        {
-            $this->playlistRepository->remove($playlist, true);
-        }
+        $this->playlistRepository->deletePlaylist($idplaylist);
 
         return $this->redirectToRoute("admin.playlists.pagegestionplaylists");
 

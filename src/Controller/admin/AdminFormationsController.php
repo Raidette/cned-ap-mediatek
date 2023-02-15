@@ -36,6 +36,10 @@ class AdminFormationsController extends AbstractController
      */
     private $categorieRepository;  
 
+    private const PAGE_GESTION = "pages/admin/gestionFormations.html.twig";
+
+    private const DATE_FORMAT = "Y-m-d\\TH:i:s";
+
     #region admin-page-principale
     
      
@@ -51,13 +55,13 @@ class AdminFormationsController extends AbstractController
 
     /**
      * @Route("/admin/formations", name="admin.formations.pagegestionformations")
-     * @param type $id
+     * @param $id
      * @return Response
      */
     public function pageGestionFormations(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/admin/gestionFormations.html.twig", [
+        return $this->render($this::PAGE_GESTION, [
             'formations' => $formations,
             'categories' => $categories        
         ]);       
@@ -65,15 +69,15 @@ class AdminFormationsController extends AbstractController
 
     /**
      * @Route("/admin/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sortGestion")
-     * @param type $champ
-     * @param type $ordre
-     * @param type $table
+     * @param $champ
+     * @param $ordre
+     * @param $table
      * @return Response
      */
     public function sortGestion($champ, $ordre, $table=""): Response{
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/admin/gestionFormations.html.twig", [
+        return $this->render($this::PAGE_GESTION, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -81,16 +85,16 @@ class AdminFormationsController extends AbstractController
 
     /**
      * @Route("/admin/formations/recherche/{champ}", name="admin.formations.findallcontaingestion")
-     * @param type $champ
-     * @param Request $request
-     * @param type $table
+     * @param $champ
+     * @param $request
+     * @param $table
      * @return Response
      */
     public function findAllContainGestion($champ, Request $request): Response{
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValue($champ, $valeur);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/admin/gestionFormations.html.twig", [
+        return $this->render($this::PAGE_GESTION, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,
@@ -100,16 +104,16 @@ class AdminFormationsController extends AbstractController
 
     /**
      * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontainintablegestion")
-     * @param type $champ
-     * @param Request $request
-     * @param type $table
+     * @param $champ
+     * @param $request
+     * @param $table
      * @return Response
      */
     public function findAllContainInTableGestion($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValueInTable($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/admin/gestionFormations.html.twig", [
+        return $this->render($this::PAGE_GESTION, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,
@@ -123,7 +127,7 @@ class AdminFormationsController extends AbstractController
 
     /**
      * @Route("/admin/formations/modifFormation/{id}", name="admin.formations.pagemodifformation")
-     * @param type $id
+     * @param $id
      * @return Response
      */
     public function pageModifFormation($id): Response{
@@ -131,11 +135,12 @@ class AdminFormationsController extends AbstractController
 
         $formation = $this->formationRepository->find($id);
         $dateFormation = $formation->getPublishedAt();
-        $dateFormationString = $dateFormation->format("Y-m-d")."T".$dateFormation->format("H:i");
+        $dateFormationString = $dateFormation->format($this::DATE_FORMAT);
 
         $categories = $this->categorieRepository->findAll();
         $listePlaylists = $this->playlistRepository->findAllOrderByName("ASC");
-        $dateNow = date("Y-m-d")."T"."23:59:59";
+        $dateToday = new \DateTime();
+        $dateNow = $dateToday->setTime(23,59,59)->format($this::DATE_FORMAT);
 
 
         return $this->render("pages/admin/modifFormation.html.twig", [
@@ -150,7 +155,7 @@ class AdminFormationsController extends AbstractController
 
     /**
      * @Route("/admin/formations/creerFormation", name="admin.formations.pagecreerformation")
-     * @param type $id
+     * @param $id
      * @return Response
      */
     public function pageCreerFormation(): Response{
@@ -159,8 +164,8 @@ class AdminFormationsController extends AbstractController
 
         $categories = $this->categorieRepository->findAll();
         $listePlaylists = $this->playlistRepository->findAllOrderByName("ASC");
-        $dateNow = date("Y-m-d")."T"."00:00:00";
-
+        $dateToday = new \DateTime();
+        $dateNow = $dateToday->setTime(23,59,59)->format($this::DATE_FORMAT);
 
         return $this->render("pages/admin/modifFormation.html.twig", [
             "formation" => $formation,
@@ -192,34 +197,25 @@ class AdminFormationsController extends AbstractController
      */
     public function updateFormation(Formation $formation, Request $request, $id): Response{
 
-        $categories = [];
-
         $titre = $request->request->get("titre");
         $description = $request->request->get("description");
         $url = $request->request->get("url");
         $categories = $request->request->get("categories");
-        $datePublished = str_replace('T',' ',$request->request->get("dateCreation")).":00";
-        $playlist = $this->playlistRepository->find($request->request->get("playlist"));
+        $playlist = $request->get("playlist");
+        $datePublished = $request->get("dateCreation");
 
-        $datePublished = \DateTime::createFromFormat("Y-m-d H:i:s",$datePublished);
+        $datePublished = \DateTime::createFromFormat("Y-m-d\\TH:i",$datePublished);
 
-        $formation->setTitle($titre);
-        $formation->setPublishedAt($datePublished);
-        $formation->setDescription($description);
-        $formation->setVideoId($url);   
-        $formation->setPlaylist($playlist);
-
-        foreach($formation->getCategories() as $categorie)
-        {
-            $formation->removeCategory($categorie);
-        }
-
-        foreach($categories as $categorie)
-        {
-            $formation->addCategory($this->categorieRepository->find($categorie));            
-        }
-
-        $this->formationRepository->add($formation,true);
+        $this->formationRepository->modifFormation($formation,
+        [
+            "titre" => $titre,
+            "description" => $description,
+            "url" => $url,
+            "categories" => $categories,
+            "playlist" => $playlist,
+            "datePublished" => $datePublished
+        ]
+        );
         
 
         return $this->render("pages/admin/affichagefinal.html.twig", [
@@ -241,7 +237,6 @@ class AdminFormationsController extends AbstractController
      */
     public function addFormation(Request $request): Response{
 
-        $categories = [];
 
         $formation = new Formation();
 
@@ -249,26 +244,23 @@ class AdminFormationsController extends AbstractController
         $description = $request->request->get("description");
         $url = $request->request->get("url");
         $categories = $request->request->get("categories");
-        $playlist = $this->playlistRepository->find($request->request->get("playlist"));
-        $datePublished = str_replace('T',' ',$request->request->get("dateCreation")).":00";
+        $playlist = $request->get("playlist");
+        $datePublished = $request->get("dateCreation");
 
-        $datePublished = \DateTime::createFromFormat("Y-m-d H:i:s",$datePublished);
+        $datePublished = \DateTime::createFromFormat("Y-m-d\\TH:i",$datePublished);
 
 
-        $formation->setTitle($titre);
-        $formation->setPublishedAt($datePublished);
-        $formation->setDescription($description);
-        $formation->setVideoId($url);   
-        $formation->setPlaylist($playlist);
-
-        foreach($categories as $categorie)
-        {
-            $formation->addCategory($this->categorieRepository->find($categorie));            
-        }
-
-        $this->formationRepository->add($formation,true);
+        $this->formationRepository->persistFormation($formation,
+        [
+            "titre" => $titre,
+            "description" => $description,
+            "url" => $url,
+            "categories" => $categories,
+            "playlist" => $playlist,
+            "datePublished" => $datePublished
+        ]
+        );
         
-
         return $this->render("pages/admin/affichagefinal.html.twig", [
             'formation' => $formation,
             'titre'=> $titre,

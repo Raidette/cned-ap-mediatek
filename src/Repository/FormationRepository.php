@@ -6,6 +6,9 @@ use App\Entity\Formation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use App\Repository\CategorieRepository;
+use App\Repository\PlaylistRepository;
+
 /**
  * @extends ServiceEntityRepository<Formation>
  *
@@ -16,9 +19,16 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FormationRepository extends ServiceEntityRepository
 {
+
+    private $categorieRepository;
+    private $playlistRepository;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
+
+        $this->categorieRepository = new CategorieRepository($registry);
+        $this->playlistRepository = new PlaylistRepository($registry);
+
     }
 
     public function add(Formation $entity, bool $flush = false): void
@@ -131,5 +141,55 @@ class FormationRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();        
     }
+
+    public function modifFormation(Formation $formation, array $properties)
+    {
+
+        $oldCategories = $formation->getCategories();
+
+        if($oldCategories != $properties["categories"]);
+        {
+            foreach($oldCategories as $categorie)
+            {
+                $formation->removeCategory($categorie);
+            }
+        }
+
+        $this->persistFormation($formation, $properties);
+    }
+
+
     
+    public function persistFormation(Formation $formation, array $properties)
+    {
+
+        $limitDate = new \DateTime();    
+        $limitDate = $limitDate->setTime(0,0,0)->add(new \DateInterval("P1D"));
+
+
+        if($properties["datePublished"] < $limitDate)
+        {
+
+            $formation->setTitle($properties["titre"]);
+            $formation->setPublishedAt($properties["datePublished"]);
+            $formation->setDescription($properties["description"]);
+            $formation->setVideoId($properties["url"]);   
+            $formation->setPlaylist($this->playlistRepository->find($properties["playlist"]));
+    
+
+            
+            foreach($properties["categories"] as $categorie)
+            {
+                $formation->addCategory($this->categorieRepository->find($categorie));            
+            }
+
+            $this->getEntityManager()->persist($formation);
+            $this->getEntityManager()->flush();
+        }
+
+        else
+        {
+            throw new \Exception("Wrong date for insertion : date must be today or before");
+        }
+    } 
 }

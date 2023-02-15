@@ -34,7 +34,7 @@ class FormationsController extends AbstractController {
      * 
      * @var CategorieRepository
      */
-    private $categorieRepository;  
+    private $categorieRepository;
 
     private const PAGE_FORMATIONS = "pages/formations.html.twig";
     
@@ -123,4 +123,5 @@ class FormationsController extends AbstractController {
             'formation' => $formation
         ]);        
     }
+
 }

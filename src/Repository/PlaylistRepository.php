@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Playlist;
+use App\Entity\Formation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,8 +48,8 @@ class PlaylistRepository extends ServiceEntityRepository
     
     /**
      * Retourne toutes les playlists triées sur le nom de la playlist
-     * @param type $champ
-     * @param type $ordre
+     * @param $champ
+     * @param $ordre
      * @return Playlist[]
      */
     public function findAllOrderByName($ordre): array{
@@ -122,4 +123,29 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }   
+
+
+    public function removeFormationFromPlaylist(Playlist $playlist, Formation $formation)
+    {
+
+        $playlist->removeFormation($formation);
+
+        $this->getEntityManager()->flush();
+
+    }
+
+    public function deletePlaylist($idplaylist)
+    {
+        $playlist = $this->find($idplaylist);
+
+        if(count($playlist->getFormations()) === 0)
+        {
+            $this->remove($playlist, true);
+        }
+
+        else
+        {
+            throw new \Exception("Impossible to delete a non-empty playlist");
+        }
+    }
 }
