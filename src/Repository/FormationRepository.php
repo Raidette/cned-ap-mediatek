@@ -147,7 +147,7 @@ class FormationRepository extends ServiceEntityRepository
 
         $oldCategories = $formation->getCategories();
 
-        if($oldCategories != $properties["categories"]);
+        if($oldCategories != $properties["categories"] && $oldCategories != null);
         {
             foreach($oldCategories as $categorie)
             {

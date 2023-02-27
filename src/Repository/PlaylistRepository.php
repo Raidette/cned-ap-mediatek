@@ -134,6 +134,22 @@ class PlaylistRepository extends ServiceEntityRepository
 
     }
 
+    public function addFormationToPlaylist(Playlist $playlist, Formation $formation)
+    {
+
+        if($formation->getPlaylist() != null)
+        {
+            ($formation->getPlaylist())->removeFormation($formation);
+        }
+
+        //$playlist->removeFormation($formation);
+
+        $playlist->addFormation($formation);
+
+        $this->getEntityManager()->flush();
+
+    }
+
     public function deletePlaylist($idplaylist)
     {
         $playlist = $this->find($idplaylist);
@@ -147,5 +163,18 @@ class PlaylistRepository extends ServiceEntityRepository
         {
             throw new \Exception("Impossible to delete a non-empty playlist");
         }
+    }
+
+    public function persistPlaylist(Playlist $playlist, array $properties)
+    {
+        $playlist->setName($properties["name"]);
+
+        $playlist->setDescription($properties["description"]);
+
+        if(!$this->getEntityManager()->contains($playlist))
+        {
+            $this->getEntityManager()->persist($playlist);
+        }
+        $this->getEntityManager()->flush();
     }
 }

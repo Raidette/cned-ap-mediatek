@@ -169,15 +169,11 @@ class AdminPlaylistsController extends AbstractController
 
         $formation = $this->formationRepository->find($request->get("addFormation"));
 
-        $playlist->addFormation($formation);
-
-    
-        $this->playlistRepository->add($playlist,true);
+        $this->playlistRepository->addFormationToPlaylist($playlist,$formation);
 
         $redirectId = $playlist->getId();
 
         return $this->redirectToRoute("admin.playlists.pagemodifplaylist",array('id' => $redirectId));
-
        
     }
 
@@ -228,12 +224,11 @@ class AdminPlaylistsController extends AbstractController
 
         $description = $request->get("descriptionFormation");
 
-        $playlist->setName($titre);
+        $this->playlistRepository->persistPlaylist($playlist,[
+            "titre" => $titre,
+            "description" => $description
+        ]);
 
-        $playlist->setDescription($description);
-
-    
-        $this->playlistRepository->add($playlist,true);
 
         $redirectId = $playlist->getId();
 
