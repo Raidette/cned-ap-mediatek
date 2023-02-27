@@ -36,7 +36,7 @@
                 </th>
                 <th class="text-left align-top" scope="col">
                     catégories
-                    <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'id', table:'categories'}) }}">
+                    <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontainintable', {champ:'id', table:'categories'}) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('filtre_categories') }}">
                         <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
                             <option value=""></option>
@@ -82,8 +82,8 @@
                     </td>
                     <td class="text-center">
                         {% if formation.miniature %}
-                            <a href="{{ path('formations.showone', {id:formation.id}) }}">
-                                <img src="{{ formation.miniature }}" alt="{{formation.description}}">
+                            <a href="{{ path('formations.showone', {id:formation.id}) }}" name="AAAAAAAAAAA" class="buttonShowOne">
+                                <img src="{{ formation.miniature }}" alt="Accéder à la formation">
                             </a>
                         {% endif %}
                     </td>
