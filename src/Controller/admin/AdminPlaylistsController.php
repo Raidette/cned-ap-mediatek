@@ -44,6 +44,7 @@ class AdminPlaylistsController extends AbstractController
     }
 
     /**
+     * pageGestionPlaylists
      * @Route("/admin/playlists", name="admin.playlists.pagegestionplaylists")
      * @return Response
      */
@@ -57,9 +58,11 @@ class AdminPlaylistsController extends AbstractController
     }
 
     /**
+     * sortGestion
+     *
      * @Route("/admin/playlists/tri/{champ}/{ordre}", name="admin.playlists.sortgestion")
-     * @param type $champ
-     * @param type $ordre
+     * @param  mixed $champ
+     * @param  mixed $ordre
      * @return Response
      */
     public function sortGestion($champ, $ordre): Response{
@@ -78,8 +81,15 @@ class AdminPlaylistsController extends AbstractController
         ]);
     }
 
+    
     /**
+     * findAllContainGestion
+     * 
      * @Route("/admin/playlists/recherche/{champ}", name="admin.playlists.findallcontaingestion")
+     *
+     * @param  mixed $champ
+     * @param Request $request
+     * @return Response
      */
     public function findAllContainGestion($champ, Request $request): Response{
         $valeur = $request->get("recherche");
@@ -92,9 +102,16 @@ class AdminPlaylistsController extends AbstractController
             'table' => ""
         ]);
     } 
-
+  
     /**
+     * findAllContainInTableGestion
+     * 
      * @Route("/admin/playlists/recherche/{champ}/{table}", name="admin.playlists.findallcontainintablegestion")
+     * 
+     * @param  mixed $champ
+     * @param Request $request
+     * @param  mixed $table
+     * @return Response
      */
     public function findAllContainInTableGestion($champ, Request $request, $table): Response{
         $valeur = $request->get("recherche");
@@ -109,8 +126,12 @@ class AdminPlaylistsController extends AbstractController
     } 
     
     /**
+     */    
+    /**
+     * pageModifPlaylist
+     * 
      * @Route("/admin/playlists/modif/{id}", name="admin.playlists.pagemodifplaylist")
-     * @param type $id
+     * @param mixed $id
      * @return Response
      */
     public function pageModifPlaylist($id): Response{
@@ -130,7 +151,6 @@ class AdminPlaylistsController extends AbstractController
 
     /**
      * @Route("/admin/playlists/creerPlaylist", name="admin.playlists.pagecreationplaylist")
-     * @param type $id
      * @return Response
      */
     public function pageCreationPlaylist(): Response{
@@ -140,8 +160,12 @@ class AdminPlaylistsController extends AbstractController
     }
 
     /**
+     * removeFormationFromPlaylist
+     * 
      * @Route("/admin/playlists/removeFormationFromPlaylist/{idformation}/{idplaylist}", name="admin.playlists.removefromplaylist")
-     * @param type $id
+     * 
+     * @param  mixed $idformation
+     * @param  mixed $idplaylist
      * @return Response
      */
     public function removeFormationFromPlaylist($idformation,$idplaylist): Response{
@@ -158,9 +182,13 @@ class AdminPlaylistsController extends AbstractController
 
     }
 
+ 
     /**
+     * addFormationToPlaylist
+     * 
      * @Route("/admin/playlists/addFormationToPlaylist/{idplaylist}", name="admin.playlists.addformationtoplaylist")
-     * @param type $id
+     * @param Request $request
+     * @param  mixed $idplaylist
      * @return Response
      */
     public function addFormationToPlaylist(Request $request, $idplaylist): Response{
@@ -178,9 +206,14 @@ class AdminPlaylistsController extends AbstractController
     }
 
 
+
     /**
+     * deletePlaylist
+     * 
      * @Route("/admin/playlists/deletePlaylist/{idplaylist}", name="admin.playlists.deleteplaylist")
-     * @param type $id
+     * 
+     * @param Request $request
+     * @param  mixed $idplaylist
      * @return Response
      */
     public function deletePlaylist(Request $request, $idplaylist): Response{
@@ -192,9 +225,13 @@ class AdminPlaylistsController extends AbstractController
     }
     
 
+   
     /**
+     * createPlaylist
+     * 
      * @Route("/admin/playlists/createPlaylist", name="admin.playlists.createplaylist")
-     * @param type $id
+     * 
+     * @param Request $request
      * @return Response
      */
     public function createPlaylist(Request $request): Response{
@@ -212,8 +249,12 @@ class AdminPlaylistsController extends AbstractController
 
 
     /**
+     * modifInfosPlaylist
+     *
      * @Route("/admin/playlists/modifInfosPlaylist/{idplaylist}", name="admin.playlists.modifinfosplaylist")
-     * @param type $id
+     * 
+     * @param Request $request
+     * @param mixed $idplaylist
      * @return Response
      */
     public function modifInfosPlaylist(Request $request, $idplaylist): Response{

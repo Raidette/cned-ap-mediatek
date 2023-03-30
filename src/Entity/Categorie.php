@@ -33,32 +33,56 @@ class Categorie
     {
         $this->formations = new ArrayCollection();
     }
-
+    
+    /**
+     * getId
+     *
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * getName
+     *
+     * @return string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
-
+    
+    /**
+     * setName
+     *
+     * @param  mixed $name
+     * @return self
+     */
     public function setName(?string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
-
+  
     /**
+     * getFormations
+     *
      * @return Collection<int, Formation>
      */
     public function getFormations(): Collection
     {
         return $this->formations;
     }
-
+    
+    /**
+     * addFormation
+     *
+     * @param  mixed $formation
+     * @return self
+     */
     public function addFormation(Formation $formation): self
     {
         if (!$this->formations->contains($formation)) {
@@ -68,7 +92,13 @@ class Categorie
 
         return $this;
     }
-
+    
+    /**
+     * removeFormation
+     *
+     * @param  mixed $formation
+     * @return self
+     */
     public function removeFormation(Formation $formation): self
     {
         if ($this->formations->removeElement($formation)) {

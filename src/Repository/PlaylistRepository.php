@@ -18,11 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
 class PlaylistRepository extends ServiceEntityRepository
 {
 
-    private const ID_SELECTOR = 'p.id id';
-    private const NAME_SELECTOR = 'p.name name';
-    private const CATEGORIE_SELECTOR = 'c.name categoriename';
-
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Playlist::class);
@@ -60,11 +55,14 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
+    
+
     /**
-    * Retourne toutes les playlists triées sur le nombre de formations
-    * @param type $ordre
-    * @return Playlist[]
-    */
+     * findAllOrderByNbFormations
+     *
+     * @param  mixed $ordre
+     * @return array
+     */
     public function findAllOrderByNbFormations($ordre): array{
         return $this->createQueryBuilder('p')
                     ->leftjoin('p.formations', 'f')
@@ -97,14 +95,17 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getResult();
     }
     
-    
+      
     /**
+     * findByContainValueInTable
+     * 
      * Enregistrements dont un champ dans une table spécifique (ex :) contient une valeur
      * ou tous les enregistrements si la valeur est vide
-     * @param type $champ
-     * @param type $valeur
-     * @param type $table permet de chercher dans une table spécifique
-     * @return Playlist[]
+     * 
+     * @param  mixed $champ
+     * @param  mixed $valeur
+     * @param  mixed $table
+     * @return array
      * @example Rechercher tous les cours de POO dans la table des cours en java
      */
     public function findByContainValueInTable($champ, $valeur, $table=""): array{
@@ -124,7 +125,14 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getResult();
     }   
 
-
+    
+    /**
+     * removeFormationFromPlaylist
+     *
+     * @param  mixed $playlist
+     * @param  mixed $formation
+     * @return void
+     */
     public function removeFormationFromPlaylist(Playlist $playlist, Formation $formation)
     {
 
@@ -133,7 +141,14 @@ class PlaylistRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
 
     }
-
+    
+    /**
+     * addFormationToPlaylist
+     *
+     * @param Playlist $playlist
+     * @param Formation $formation
+     * @return void
+     */
     public function addFormationToPlaylist(Playlist $playlist, Formation $formation)
     {
 
@@ -149,7 +164,13 @@ class PlaylistRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
 
     }
-
+    
+    /**
+     * deletePlaylist
+     *
+     * @param mixed $idplaylist
+     * @return void
+     */
     public function deletePlaylist($idplaylist)
     {
         $playlist = $this->find($idplaylist);
@@ -164,7 +185,14 @@ class PlaylistRepository extends ServiceEntityRepository
             throw new \Exception("Impossible to delete a non-empty playlist");
         }
     }
-
+    
+    /**
+     * persistPlaylist
+     *
+     * @param  mixed $playlist
+     * @param  mixed $properties
+     * @return void
+     */
     public function persistPlaylist(Playlist $playlist, array $properties)
     {
         $playlist->setName($properties["name"]);

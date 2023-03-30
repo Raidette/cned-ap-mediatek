@@ -39,17 +39,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $keycloakId;
-
+    
+    /**
+     * getId
+     *
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * getEmail
+     *
+     * @return string
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
-
+    
+    /**
+     * setEmail
+     *
+     * @param  mixed $email
+     * @return self
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -86,7 +102,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
-
+    
+    /**
+     * setRoles
+     *
+     * @param  mixed $roles
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -101,7 +123,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-
+    
+    /**
+     * setPassword
+     *
+     * @param  mixed $password
+     * @return self
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -128,12 +156,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
+    
+    /**
+     * getKeycloakId
+     *
+     * @return string
+     */
     public function getKeycloakId(): ?string
     {
         return $this->keycloakId;
     }
-
+    
+    /**
+     * setKeycloakId
+     *
+     * @param  mixed $keycloakId
+     * @return self
+     */
     public function setKeycloakId(?string $keycloakId): self
     {
         $this->keycloakId = $keycloakId;

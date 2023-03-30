@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Formation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
-
-use App\Repository\CategorieRepository;
 use App\Repository\PlaylistRepository;
+use App\Repository\CategorieRepository;
+
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Formation>
@@ -20,7 +20,13 @@ use App\Repository\PlaylistRepository;
 class FormationRepository extends ServiceEntityRepository
 {
 
+    /**
+     * @var Repository
+     */
     private $categorieRepository;
+    /**
+     * @var Repository
+     */
     private $playlistRepository;
     public function __construct(ManagerRegistry $registry)
     {
@@ -48,13 +54,16 @@ class FormationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+ 
     /**
+     * findAllOrderBy
+     *
      * Retourne toutes les formations triées sur un champ
-     * @param type $champ
-     * @param type $ordre
-     * @param type $table si $champ dans une autre table
-     * @return Formation[]
+     * 
+     * @param  mixed $champ
+     * @param  mixed $ordre
+     * @param  mixed $table
+     * @return array
      */
     public function findAllOrderBy($champ, $ordre, $table=""): array{
         if($table==""){
@@ -71,12 +80,16 @@ class FormationRepository extends ServiceEntityRepository
         }
     }
 
+    
     /**
+     * findByContainValue
+     * 
      * Enregistrements dont un champ contient une valeur
      * ou tous les enregistrements si la valeur est vide
-     * @param type $champ
-     * @param type $valeur
-     * @return Formation[]
+     *
+     * @param  mixed $champ
+     * @param  mixed $valeur
+     * @return array
      */
     public function findByContainValue($champ, $valeur): array{
         if($valeur==""){
@@ -92,12 +105,16 @@ class FormationRepository extends ServiceEntityRepository
     }
 
     /**
+     * findByContainValueInTable
+     * 
      * Enregistrements dont un champ dans une table spécifique (ex :) contient une valeur
      * ou tous les enregistrements si la valeur est vide
-     * @param type $champ
-     * @param type $valeur
-     * @param type $table permet de chercher dans une table spécifique
-     * @return Playlist[]
+     *
+     * @param  mixed $champ
+     * @param  mixed $valeur
+     * @param  mixed $table
+     * @return array
+     * 
      * @example Rechercher tous les cours de POO dans la table des cours en java
      */
     public function findByContainValueInTable($champ, $valeur, $table=""): array{
@@ -114,10 +131,14 @@ class FormationRepository extends ServiceEntityRepository
                     ->getResult();   
     }
     
+    
     /**
+     * findAllLasted
+     * 
      * Retourne les n formations les plus récentes
-     * @param type $nb
-     * @return Formation[]
+     *
+     * @param  mixed $nb
+     * @return array
      */
     public function findAllLasted($nb) : array {
         return $this->createQueryBuilder('f')
@@ -128,8 +149,10 @@ class FormationRepository extends ServiceEntityRepository
     }    
     
     /**
+     * findAllForOnePlaylist
      * Retourne la liste des formations d'une playlist
-     * @param type $idPlaylist
+     *
+     * @param  mixed $idPlaylist
      * @return array
      */
     public function findAllForOnePlaylist($idPlaylist): array{
@@ -141,7 +164,14 @@ class FormationRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();        
     }
-
+    
+    /**
+     * modifFormation
+     *
+     * @param Formation $formation
+     * @param array $properties
+     * @return void
+     */
     public function modifFormation(Formation $formation, array $properties)
     {
 
@@ -159,7 +189,14 @@ class FormationRepository extends ServiceEntityRepository
     }
 
 
-    
+        
+    /**
+     * persistFormation
+     *
+     * @param  mixed $formation
+     * @param  mixed $properties
+     * @return void
+     */
     public function persistFormation(Formation $formation, array $properties)
     {
 

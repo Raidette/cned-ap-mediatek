@@ -4,10 +4,18 @@ namespace App\Tests\Fonctionnels;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * PagePlaylistsTest
+ */
 class PagePlaylistsTest extends WebTestCase
 {
 
-    // SORTING
+    // SORTING    
+    /**
+     * testOrderNameDesc
+     *
+     * @return void
+     */
     public function testOrderNameDesc(): void
     {
         $client = static::createClient();
@@ -19,7 +27,12 @@ class PagePlaylistsTest extends WebTestCase
 
         $this->assertSame("Playlist test 2",$result);
     }
-
+    
+    /**
+     * testOrderNameAsc
+     *
+     * @return void
+     */
     public function testOrderNameAsc(): void
     {
         $client = static::createClient();
@@ -33,7 +46,12 @@ class PagePlaylistsTest extends WebTestCase
 
         $this->assertSame("Playlist test 1",$result);
     }
-
+    
+    /**
+     * testOrderTailleAsc
+     *
+     * @return void
+     */
     public function testOrderTailleAsc(): void
     {
         $client = static::createClient();
@@ -47,7 +65,12 @@ class PagePlaylistsTest extends WebTestCase
 
         $this->assertSame("Playlist test 2",$result);
     }
-
+    
+    /**
+     * testOrderTailleDesc
+     *
+     * @return void
+     */
     public function testOrderTailleDesc(): void
     {
         $client = static::createClient();
@@ -63,7 +86,12 @@ class PagePlaylistsTest extends WebTestCase
 
         
     }
-
+    
+    /**
+     * testSearchCategorie
+     *
+     * @return void
+     */
     public function testSearchCategorie(): void
     {
         $client = static::createClient();

@@ -39,9 +39,13 @@ class CategorieRepository extends ServiceEntityRepository
         }
     }
     
+   
     /**
+     * findAllForOnePlaylist
+     * 
      * Retourne la liste des catégories des formations d'une playlist
-     * @param type $idPlaylist
+     *
+     * @param  mixed $idPlaylist
      * @return array
      */
     public function findAllForOnePlaylist($idPlaylist): array{
@@ -55,7 +59,14 @@ class CategorieRepository extends ServiceEntityRepository
                 ->getResult();        
     }  
     
-    
+        
+    /**
+     * createCategory
+     *
+     * @param  mixed $categorie
+     * @param  mixed $properties
+     * @return void
+     */
     public function createCategory(Categorie $categorie, array $properties)
     {
         $newCategorie = new Categorie();
@@ -67,7 +78,13 @@ class CategorieRepository extends ServiceEntityRepository
             $this->add($newCategorie, true);
         }
     }
-
+    
+    /**
+     * removeCategorie
+     *
+     * @param  mixed $categorie
+     * @return void
+     */
     public function removeCategorie(Categorie $categorie)
     {
         if(count($categorie->getFormations()) === 0)

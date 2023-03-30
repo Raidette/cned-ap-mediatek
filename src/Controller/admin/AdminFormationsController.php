@@ -36,8 +36,16 @@ class AdminFormationsController extends AbstractController
      */
     private $categorieRepository;  
 
+    /**
+     * 
+     * @var string
+     */
     private const PAGE_GESTION = "pages/admin/gestionFormations.html.twig";
 
+    /**
+     * 
+     * @var string
+     */
     private const DATE_FORMAT = "Y-m-d\\TH:i:s";
 
     #region admin-page-principale
@@ -53,9 +61,12 @@ class AdminFormationsController extends AbstractController
     
 
 
+ 
     /**
+     * pageGestionFormations
+     * 
      * @Route("/admin/formations", name="admin.formations.pagegestionformations")
-     * @param $id
+     * 
      * @return Response
      */
     public function pageGestionFormations(): Response{
@@ -67,11 +78,15 @@ class AdminFormationsController extends AbstractController
         ]);       
     }
 
+
     /**
+     * sortGestion
+     * 
      * @Route("/admin/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sortGestion")
-     * @param $champ
-     * @param $ordre
-     * @param $table
+     *
+     * @param  mixed $champ
+     * @param  mixed $ordre
+     * @param  mixed $table
      * @return Response
      */
     public function sortGestion($champ, $ordre, $table=""): Response{
@@ -82,12 +97,14 @@ class AdminFormationsController extends AbstractController
             'categories' => $categories
         ]);
     } 
-
+ 
     /**
+     * findAllContainGestion
+     *
      * @Route("/admin/formations/recherche/{champ}", name="admin.formations.findallcontaingestion")
-     * @param $champ
-     * @param $request
-     * @param $table
+     *
+     * @param  mixed $champ
+     * @param Request $request
      * @return Response
      */
     public function findAllContainGestion($champ, Request $request): Response{
@@ -102,11 +119,15 @@ class AdminFormationsController extends AbstractController
         ]);
     }
 
+    
     /**
+     * findAllContainInTableGestion
+     * 
      * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontainintablegestion")
-     * @param $champ
-     * @param $request
-     * @param $table
+     * 
+     * @param mixed $champ
+     * @param Request $request
+     * @param mixed $table
      * @return Response
      */
     public function findAllContainInTableGestion($champ, Request $request, $table=""): Response{
@@ -126,8 +147,11 @@ class AdminFormationsController extends AbstractController
 
 
     /**
+     * pageModifFormation
+     *
      * @Route("/admin/formations/modifFormation/{id}", name="admin.formations.pagemodifformation")
-     * @param $id
+     * 
+     * @param  mixed $id
      * @return Response
      */
     public function pageModifFormation($id): Response{
@@ -153,9 +177,10 @@ class AdminFormationsController extends AbstractController
     }
 
 
+        
     /**
      * @Route("/admin/formations/creerFormation", name="admin.formations.pagecreerformation")
-     * @param $id
+     *
      * @return Response
      */
     public function pageCreerFormation(): Response{
@@ -176,11 +201,15 @@ class AdminFormationsController extends AbstractController
         ]);        
     }
 
+  
     /**
+     * supprimerFormation
+     *
      * @Route("/admin/formations/suppression/{id}", name="admin.formations.supprimerformation")
-     * @param $id
      * 
      * Route de suppression d'une formation.
+     * @param Formation $formation
+     * @return Response
      */
     public function supprimerFormation(Formation $formation): Response{
 
@@ -189,11 +218,16 @@ class AdminFormationsController extends AbstractController
         return $this->pageGestionFormations();
     }
 
+    
     /**
+     * updateFormation
+     *
      * @Route("/admin/formations/updateFormation/{id}", name="admin.formations.updateFormation")
-     * @param $id
      * 
-     * Route de mise à jour d'une formation.
+     * @param Formation $formation
+     * @param Request $request
+     * @param mixed $id
+     * @return Response
      */
     public function updateFormation(Formation $formation, Request $request, $id): Response{
 
@@ -229,11 +263,14 @@ class AdminFormationsController extends AbstractController
     }
 
 
+    
     /**
-     * @Route("/admin/formations/gestion/addformation", name="admin.formations.addformation")
-     * @param $id
+     * addFormation
      * 
-     * Route de mise à jour d'une formation.
+     * @Route("/admin/formations/gestion/addformation", name="admin.formations.addformation")
+     *
+     * @param Request $request
+     * @return Response
      */
     public function addFormation(Request $request): Response{
 

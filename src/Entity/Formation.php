@@ -16,8 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Formation
 {
+
     /**
-     * Début de chemin vers les images
+     * 
+     * @var String
      */
     private const CHEMIN_IMAGE = "https://i.ytimg.com/vi/";
     
@@ -63,82 +65,157 @@ class Formation
     {
         $this->categories = new ArrayCollection();
     }
-
+    
+    /**
+     * getId
+     *
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * getPublishedAt
+     *
+     * @return DateTimeInterface
+     */
     public function getPublishedAt(): ?DateTimeInterface
     {
         return $this->publishedAt;
     }
-
+    
+    /**
+     * setPublishedAt
+     *
+     * @param  mixed $publishedAt
+     * @return self
+     */
     public function setPublishedAt(?DateTimeInterface $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
 
         return $this;
     }
-    
+        
+    /**
+     * getPublishedAtString
+     *
+     * @return string
+     */
     public function getPublishedAtString(): string {
         if($this->publishedAt == null){
             return "";
         }
         return $this->publishedAt->format('d/m/Y');     
     }      
-
+    
+    /**
+     * getTitle
+     *
+     * @return string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
-
+    
+    /**
+     * setTitle
+     *
+     * @param  mixed $title
+     * @return self
+     */
     public function setTitle(?string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
-
+    
+    /**
+     * getDescription
+     *
+     * @return string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
+    
+    /**
+     * setDescription
+     *
+     * @param  mixed $description
+     * @return self
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
-
+    
+    /**
+     * getMiniature
+     *
+     * @return string
+     */
     public function getMiniature(): ?string
     {
         return self::CHEMIN_IMAGE.$this->videoId."/default.jpg";
     }
-
+    
+    /**
+     * getPicture
+     *
+     * @return string
+     */
     public function getPicture(): ?string
     {
         return self::CHEMIN_IMAGE.$this->videoId."/hqdefault.jpg";
     }
-
+    
+    /**
+     * getVideoId
+     *
+     * @return string
+     */
     public function getVideoId(): ?string
     {
         return $this->videoId;
     }
-
+    
+    /**
+     * setVideoId
+     *
+     * @param  mixed $videoId
+     * @return self
+     */
     public function setVideoId(?string $videoId): self
     {
         $this->videoId = $videoId;
 
         return $this;
     }
-
+    
+    /**
+     * getPlaylist
+     *
+     * @return Playlist
+     */
     public function getPlaylist(): ?Playlist
     {
         return $this->playlist;
     }
-
+    
+    /**
+     * setPlaylist
+     *
+     * @param  mixed $playlist
+     * @return self
+     */
     public function setPlaylist(?Playlist $playlist): self
     {
         $this->playlist = $playlist;
@@ -147,13 +224,21 @@ class Formation
     }
 
     /**
-     * @return Collection<int, Categorie>
+     * getCategories
+     *
+     * @return Collection
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
-
+    
+    /**
+     * addCategory
+     *
+     * @param  mixed $category
+     * @return self
+     */
     public function addCategory(Categorie $category): self
     {
         if (!$this->categories->contains($category)) {
@@ -162,7 +247,13 @@ class Formation
 
         return $this;
     }
-
+    
+    /**
+     * removeCategory
+     *
+     * @param  mixed $category
+     * @return self
+     */
     public function removeCategory(Categorie $category): self
     {
         $this->categories->removeElement($category);

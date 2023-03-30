@@ -38,29 +38,56 @@ class Playlist
     {
         $this->formations = new ArrayCollection();
     }
-
+    
+    /**
+     * getId
+     *
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * getName
+     *
+     * @return string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
-
+    
+    /**
+     * setName
+     *
+     * @param  mixed $name
+     * @return self
+     */
     public function setName(?string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
-
+    
+    /**
+     * getDescription
+     *
+     * @return string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
+    
+    /**
+     * setDescription
+     *
+     * @param  mixed $description
+     * @return self
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -69,13 +96,21 @@ class Playlist
     }
 
     /**
-     * @return Collection<int, Formation>
+     * getFormations
+     *
+     * @return Collection
      */
     public function getFormations(): Collection
     {
         return $this->formations;
     }
-
+    
+    /**
+     * addFormation
+     *
+     * @param  mixed $formation
+     * @return self
+     */
     public function addFormation(Formation $formation): self
     {
         if (!$this->formations->contains($formation)) {
@@ -85,7 +120,13 @@ class Playlist
 
         return $this;
     }
-
+    
+    /**
+     * removeFormation
+     *
+     * @param  mixed $formation
+     * @return self
+     */
     public function removeFormation(Formation $formation): self
     {
         if ($this->formations->removeElement($formation) && $formation->getPlaylist() === $this) {
@@ -96,8 +137,11 @@ class Playlist
         return $this;
     }
 
+ 
     /**
-     * @return Collection<int, string>
+     * getCategoriesPlaylist
+     *
+     * @return Collection
      */
     public function getCategoriesPlaylist() : Collection
     {
