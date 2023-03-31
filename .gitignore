@@ -20,3 +20,5 @@
 ###< symfony/phpunit-bridge ###
 
 .phpdoc
+
+/mediatekformation_doc
