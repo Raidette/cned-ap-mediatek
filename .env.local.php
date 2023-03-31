@@ -6,7 +6,7 @@ return array (
   'APP_ENV' => 'prod',
   'MESSENGER_TRANSPORT_DSN' => 'doctrine://default?auto_setup=0',
   'APP_SECRET' => '7abe96acf49eaf2b242b4242bca4d805',
-  'DATABASE_URL' => 'mysql://sio:M3D!@T3Kformation@ap-mediatek-bdd.mysql.database.azure.com:3306/mediatekformation',
+  'DATABASE_URL' => 'mysql://root:@127.0.0.1:3306/mediatekformation',
   'KEYCLOAK_SECRET' => 'FXH4VgSuqw5uknwDdgAJrfeDbdkZCaVf',
   'KEYCLOAK_CLIENTID' => 'mediatekformation',
   'KEYCLOAK_APP_URL' => 'http://localhost:8080',
