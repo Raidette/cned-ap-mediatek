@@ -6,7 +6,7 @@ name: Build and deploy PHP app to Azure Web App - sue-mediatekformation
 on:
   push:
     branches:
-      - maiN
+      - main
 
 jobs:
   deploy:
